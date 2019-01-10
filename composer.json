@@ -1,0 +1,28 @@
+{
+    "name": "ebredy/apichainning",
+    "description": "API Chainning",
+    "version": "0.1.0",
+    "authors": [
+    	{
+            "name": "Michael Stowe",
+        },
+        {
+            "name": "Erwin Bredy",
+            "email": "ebredy@gmail.com"
+        }
+    ],  
+
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "ebredy": "src/ebredy"
+        }
+    },    
+    "repositories": [{
+        "url": "https://git@github.com/ebredy/apichainning.git",
+        "type": "git"
+    }]
+}

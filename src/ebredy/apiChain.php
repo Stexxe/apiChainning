@@ -1,5 +1,5 @@
 <?php
-namespace apiChain;
+namespace ebredy;
 
 class apiChain {
 	private $handler;
