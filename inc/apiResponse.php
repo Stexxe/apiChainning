@@ -24,9 +24,13 @@ class apiResponse {
         if ($return !== true || is_array($return)) {
             $body = [];
 
-            foreach ($return as $propertyPath) {
-                $value = $this->response->getValue('body.' . $propertyPath);
-                $body = $this->response->assignValueByPath($body, $propertyPath, $value);
+            foreach ($return as $propertyPath => $alias) {
+                if ( is_numeric($propertyPath) ) {
+                    $propertyPath = $alias;
+                }
+
+                $value = $this->valueFromBody($propertyPath);
+                $body = $this->response->assignValueByPath($body, $alias, $value);
             }
 
             $this->response->setBody( $this->normalizeBody($body) );
@@ -42,6 +46,18 @@ class apiResponse {
         });
 
         return json_decode( json_encode($body) );
+    }
+
+    public function getUrl() {
+        return $this->href;
+    }
+
+    public function asJSON() {
+        return json_encode($this->response->body);
+    }
+
+    public function valueFromBody($name) {
+        return $this->response->getValue('body.' . $name);
     }
 
     public function retrieveData($property) {
