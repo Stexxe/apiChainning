@@ -2,7 +2,10 @@
 
 use PHPUnit\Framework\TestCase;
 use apiChain\apiChain;
+<<<<<<< HEAD
 use apiChain\apiResponse;
+=======
+>>>>>>> c5fbf5610871e2b01253b15d72ce7ef48b6a40d6
 
 class ApiChainTest extends TestCase {
     /**
@@ -10,7 +13,7 @@ class ApiChainTest extends TestCase {
      * @expectedExceptionMessage Error while parsing chain config: Syntax error
      */
     public function testInvalidJSONThrowsException() {
-        new \apiChain\apiChain("invalid json");
+        new apiChain("invalid json");
     }
 
     public function testDecreaseCallsRequestedForEachLink() {
@@ -48,7 +51,13 @@ class ApiChainTest extends TestCase {
             $this->assertEquals('val', $body->key);
         };
 
+<<<<<<< HEAD
         new apiChain($config, $handler, $this->createResponse(['key' => 'val']));
+=======
+        $body = new stdClass();
+        $body->key = 'val';
+        new apiChain($config, $handler, $this->createResponse($body));
+>>>>>>> c5fbf5610871e2b01253b15d72ce7ef48b6a40d6
     }
 
     public function testChainWithoutHandler() {
@@ -66,7 +75,7 @@ class ApiChainTest extends TestCase {
             $this->createRule(['doOn' => 'hack']),
         ]);
 
-        $chain = new \apiChain\apiChain($config);
+        $chain = new apiChain($config);
         $this->assertEquals(2, $chain->callsRequested);
         $this->assertEquals(1, $chain->callsCompleted);
         $this->assertEquals(0.5, $chain->getCallPer());
@@ -132,6 +141,7 @@ class ApiChainTest extends TestCase {
         $this->assertEquals(0, $chain->callsCompleted);
     }
 
+<<<<<<< HEAD
     public function testReturnAliases() {
         $config = json_encode([
             $this->createRule([
@@ -154,6 +164,25 @@ class ApiChainTest extends TestCase {
         $response = $chain->responses[1]->response;
         $this->assertEquals('val', $response->body->alias);
         $this->assertFalse( isset($response->body->key) );
+=======
+    public function testRequestHeaders() {
+        $config = json_encode([
+            $this->createRule(['headers' => [
+                'simple' => 'val',
+                'placeholder' => 'custom_${body.some}'
+            ]]),
+        ]);
+
+        $handler = function ($url, $method, $requestHeaders) {
+            $this->assertEquals('val', $requestHeaders->simple);
+            $this->assertEquals('custom_val', $requestHeaders->placeholder);
+        };
+
+        $body = new stdClass();
+        $body->some = 'val';
+
+        new apiChain($config, $handler, $this->createResponse($body));
+>>>>>>> c5fbf5610871e2b01253b15d72ce7ef48b6a40d6
     }
 
     private function createRule(array $partial) {

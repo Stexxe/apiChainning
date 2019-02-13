@@ -28,9 +28,15 @@ class apiResponse {
         if ($return !== true || is_array($return)) {
             $body = [];
 
+<<<<<<< HEAD:src/ebredy/apiResponse.php
             foreach ($return as $propertyPath => $alias) {
                 if ( is_numeric($propertyPath) ) {
                     $propertyPath = $alias;
+=======
+            foreach ($return as $alias => $propertyPath) {
+                if ( is_numeric($alias) ) {
+                    $alias = $propertyPath;
+>>>>>>> c5fbf5610871e2b01253b15d72ce7ef48b6a40d6:inc/apiResponse.php
                 }
 
                 $value = $this->valueFromBody($propertyPath);
@@ -39,6 +45,11 @@ class apiResponse {
 
             $this->response->setBody( $this->normalizeBody($body) );
         }
+    }
+
+    public function valueFromBody($path) {
+        $value = $this->response->getValue('body.' . $path);
+        return ($value === null ? $this->response->getValueByPath($path) : $value);
     }
 
     private function normalizeBody($body) {

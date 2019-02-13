@@ -18,11 +18,11 @@ class ResponseTest extends TestCase {
     public function testSettingBodyBasedOnReturn() {
         $tests = [
             [[], ['key'], function ($body) {
-                $this->assertNull($body->key);
+                $this->assertEquals([], $body->key);
             }],
 
             [['key' => 'val'], ['nonexistent'], function ($body) {
-                $this->assertNull($body->nonexistent);
+                $this->assertEquals([], $body->nonexistent);
             }],
 
             [['key' => 'val'], ['key'], function ($body) {
@@ -63,19 +63,39 @@ class ResponseTest extends TestCase {
                 $this->assertEquals('val2', $body->arr[1]->nested);
             }],
 
+<<<<<<< HEAD
 
             [['path' => ['arr' => ['val1', 'val2']]], ['path.arr[0]' => 'alias1', 'path.arr[1]' => 'alias2'], function ($body) {
                 $this->assertEquals('val1', $body->alias1);
                 $this->assertEquals('val2', $body->alias2);
             }],
+=======
+            [['path' => ['arr' => ['val1', 'val2']]], ['alias1' => 'path.arr[0]', 'alias2' => 'path.arr[1]'], function ($body) {
+                $this->assertEquals('val1', $body->alias1);
+                $this->assertEquals('val2', $body->alias2);
+            }],
+
+            [['people' => [['name' => 'Joe'], ['name' => 'Bob']]], ['people' => '$.people.*.name'], function ($body) {
+                $this->assertEquals(['Joe', 'Bob'], $body->people);
+            }],
+>>>>>>> c5fbf5610871e2b01253b15d72ce7ef48b6a40d6
         ];
 
         array_walk($tests, function ($item) {
             list ($body, $return, $assertCallback) = $item;
 
-            $response = new \apiChain\apiResponse('', '', 0, [], $this->arrayToObject($body), $return);
+            $response = $this->createResponse($body, $return);
             $assertCallback($response->response->getBody());
         });
+    }
+
+    public function testInvalidJSONPathReturnsNull() {
+        $response = $this->createResponse([], ['test' => '$$']);
+        $this->assertNull($response->response->getBody()->test);
+    }
+
+    private function createResponse($body, $return) {
+        return new \apiChain\apiResponse('', '', 0, [], $this->arrayToObject($body), $return);
     }
 
     private function arrayToObject(array $arr) {
