@@ -1,15 +1,23 @@
 {
     "name": "ebredy/apichainning",
     "description": "API Chainning",
+<<<<<<< HEAD
     "version": "0.1.0",
     "authors": [
     	{
             "name": "Michael Stowe",
+=======
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Stowe"
+>>>>>>> 0b43bcd482798a4d35169e6a3037ac9a14961163
         },
         {
             "name": "Erwin Bredy",
             "email": "ebredy@gmail.com"
         }
+<<<<<<< HEAD
     ],  
 
     "minimum-stability": "dev",
@@ -26,3 +34,23 @@
         "type": "git"
     }]
 }
+=======
+    ],
+
+    "type": "library",
+    "minimum-stability": "dev",
+
+    "autoload": {
+      "psr-4": { "apiChain\\": "inc" }
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "^7"
+    },
+
+    "repositories": [{
+        "url": "https://github.com/Stexxe/phplib-for-api-chaining.git",
+        "type": "git"
+    }]
+}
+>>>>>>> 0b43bcd482798a4d35169e6a3037ac9a14961163

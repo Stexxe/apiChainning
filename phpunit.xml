@@ -1,0 +1,10 @@
+<phpunit colors="true" bootstrap="vendor/autoload.php">
+    <testsuite name='All classes'>
+        <directory>test</directory>
+    </testsuite>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">inc</directory>
+        </whitelist>
+    </filter>
+</phpunit>
